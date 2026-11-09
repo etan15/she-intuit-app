@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>SHE Accountant – Connecting</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+  <h1>SHE Accountant</h1>
+  <p id="msg">Finishing the QuickBooks connection…</p>
+</main>
+<script>
+  // Intuit sends the browser here after sign-in. This page stores nothing and sends nothing
+  // anywhere else: it hands the one-time code straight to the sign-in script running on
+  // this computer (127.0.0.1:8000), which checks it and swaps it for tokens.
+  (function () {
+    var q = new URLSearchParams(location.search);
+    var msg = document.getElementById('msg');
+    if (q.get('error')) {
+      msg.textContent = 'QuickBooks returned an error: ' + q.get('error') + '. You can close this tab.';
+      return;
+    }
+    if (!q.get('code') || !q.get('state')) {
+      msg.textContent = 'Nothing to do here. You can close this tab.';
+      return;
+    }
+    location.replace('http://127.0.0.1:8000/callback' + location.search);
+  })();
+</script>
+</body>
+</html>
